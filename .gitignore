@@ -1,0 +1,8 @@
+*.bin
+
+# Ignore object files
+*.o
+*.oclear
+
+# Ignore VS Code directory
+.vscode/
