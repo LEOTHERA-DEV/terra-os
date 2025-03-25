@@ -9,7 +9,6 @@ kernel_main:
 
     call clear_screen
 
-    mov esi, message
     call print_terraOS
 
 hang:
@@ -29,12 +28,15 @@ clear_screen:
 
 print_terraOS:
     cli
+
+    mov ax, 0x10
+    mov ds, ax
+
     mov edi, 0xB8000
+    mov esi, message
 
 .k_loop:
     lodsb
-
-    mov [edi], esi
 
     ; inc edi
     ; mov byte [edi + 1], 0x0F
@@ -52,8 +54,8 @@ print_terraOS:
     jmp .k_loop
 
 .k_done:
-    mov edi, 0xB8000
-    mov byte [edi], 'G'
+    ; mov edi, 0xB8000
+    ; mov byte [edi], 'G'
     ret
 
 message db "TerraOS", 0
