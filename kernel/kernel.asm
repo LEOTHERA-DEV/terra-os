@@ -8,7 +8,6 @@ kernel_main:
     mov ebp, esp
 
     call clear_screen
-
     call print_terraOS
 
 hang:
@@ -28,12 +27,13 @@ clear_screen:
 
 print_terraOS:
     cli
+    xor al, al
 
     mov ax, 0x10
     mov ds, ax
 
     mov edi, 0xB8000
-    mov esi, message
+    mov esi, 0x11000
 
 .k_loop:
     lodsb
@@ -43,10 +43,8 @@ print_terraOS:
     ; inc edi
 
     mov [edi], al
-    inc edi
-    mov byte [edi + 1], 0x0E
-    inc edi
-
+    mov byte [edi + 1], 0x0F
+    add edi, 2
 
     test al, al
     jz .k_done
@@ -54,10 +52,10 @@ print_terraOS:
     jmp .k_loop
 
 .k_done:
-    ; mov edi, 0xB8000
-    ; mov byte [edi], 'G'
+    mov byte [edi], 'G'
     ret
 
+section .data
 message db "TerraOS", 0
 
 section .bss
