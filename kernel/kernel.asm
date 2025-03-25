@@ -4,60 +4,47 @@ global kernel_main
 
 kernel_main:
     cli
+    mov ax, 0x10
+    mov ds, ax
+    mov es, ax
+
     mov esp, 0x90000
     mov ebp, esp
 
     call clear_screen
-    call print_terraOS
+    call print_message
 
 hang:
     hlt
     jmp hang
 
 clear_screen:
-    cli
     pusha
     mov edi, 0xB8000
     mov ecx, 80 * 25
-    mov eax, 0x0F20
-    rep stosw
+    mov eax, 0x07200720
+    rep stosd
     popa
-    sti
     ret
 
-print_terraOS:
-    cli
-    xor al, al
-
-    mov ax, 0x10
-    mov ds, ax
-
+print_message:
+    pusha
     mov edi, 0xB8000
-    mov esi, 0x11000
+    mov esi, message
 
-.k_loop:
+.print_loop:
     lodsb
-
-    ; inc edi
-    ; mov byte [edi + 1], 0x0F
-    ; inc edi
+    test al, al
+    jz .done
 
     mov [edi], al
     mov byte [edi + 1], 0x0F
     add edi, 2
+    jmp .print_loop
 
-    test al, al
-    jz .k_done
-    
-    jmp .k_loop
-
-.k_done:
-    mov byte [edi], 'G'
+.done:
+    popa
     ret
 
 section .data
-message db "TerraOS", 0
-
-section .bss
-resb 4096
-stack_top:
+message db "Terra OS Boot build ver 0.0.1", 0
