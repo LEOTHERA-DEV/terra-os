@@ -17,5 +17,8 @@ objcopy -O binary kernel.elf kernel.bin || exit 1
 # Combine the bootloader and kernel
 cat boot.bin kernel.bin > os_image.bin || exit 1
 
+echo "Required number of sections:"
+echo $(( $(stat -c%s kernel.bin) / 512 + 1 ))
+
 # Run the OS in QEMU
 qemu-system-x86_64 -drive format=raw,file=os_image.bin
