@@ -7,44 +7,27 @@ kernel_main:
     mov ax, 0x10
     mov ds, ax
     mov es, ax
+    mov fs, ax
+    mov gs, ax
 
     mov esp, 0x90000
     mov ebp, esp
 
-    call clear_screen
-    call print_message
+    call color_test
 
 hang:
     hlt
     jmp hang
 
-clear_screen:
-    pusha
-    mov edi, 0xB8000
-    mov ecx, 80 * 25
-    mov eax, 0x07200720
-    rep stosd
-    popa
-    ret
+color_test:
+    mov edi, 0xA0000
+    mov ecx, 320*200
+    xor eax, eax
 
-print_message:
-    pusha
-    mov edi, 0xB8000
-    mov esi, message
-
-.print_loop:
-    lodsb
-    test al, al
-    jz .done
-
+.fill_loop:
     mov [edi], al
-    mov byte [edi + 1], 0x0F
-    add edi, 2
-    jmp .print_loop
+    inc edi
+    inc eax
+    loop .fill_loop
 
-.done:
-    popa
     ret
-
-section .data
-message db "Terra OS Boot build ver 0.0.1", 0

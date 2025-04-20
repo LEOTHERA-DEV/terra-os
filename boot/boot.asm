@@ -12,6 +12,10 @@ start:
 
     call enable_a20
 
+    mov ah, 0x00
+    mov al, 0x13
+    int 0x10
+
     mov ax, 0x1000
     mov es, ax
     xor bx, bx
