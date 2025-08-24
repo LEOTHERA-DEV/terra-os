@@ -1,25 +1,31 @@
 #!/bin/bash
 
-echo 'Build script for TerraOS'
-echo 'Developed by LEOTHERA | Github: @GVBRIELLE-N'
-sleep 2
-clear
+echo 'Building TerraOS...'
 
-echo 'Running build process...'
-sleep 1 #adding a delay because this shit hurts my eyes
-# Bootloader
-nasm -f bin boot/boot.asm -o boot.bin && echo 'boot.bin compiled!' || exit 1
+# Assemble the bootloader
+echo 'Building Bootloader...'
+nasm -f bin boot/boot.asm -o boot.bin || exit 1
 
-echo 'Compiling kernel...'
-# Kernel
-nasm -f elf32 kernel/kernel.asm -o kernel.o && echo 'kernel.o compiled!' || exit 1
+# Assemble the kernel
+echo 'Building Kernel...'
+nasm -f elf32 kernel/kernel.asm -o kernel.o || exit 1
 
-echo 'Compiling linking kernel to program...'
-x86_64-elf-ld -T kernel/linker.ld -o kernel.bin kernel.o && echo 'kernel.bin compiled!' || exit 1
+# Link the kernel
+echo 'Linking files...'
+ld -T kernel/linker.ld -o kernel.elf kernel.o || exit 1
 
-echo 'Combining builds and executing...'
-# Combining
-cat boot.bin kernel.bin > os_image.bin && echo 'TerraOS image compiled!' && echo 'Running TerraOS...' || exit 1
+# Convert the kernel to a binary
+echo 'Converting to binary...'
+objcopy -O binary kernel.elf kernel.bin || exit 1
+
+# Combine the bootloader and kernel
+echo 'Combining builds...'
+cat boot.bin kernel.bin > os_image.bin || exit 1
+
+echo 'Build successfull!'
+echo "Checking required number of sections:"
+echo $(( $(stat -c%s kernel.bin) / 512 + 1 ))
+
+# Run the OS in QEMU
+echo 'Running TerraOS'
 qemu-system-x86_64 -drive format=raw,file=os_image.bin
-clear
-echo 'Closing TerraOS...'

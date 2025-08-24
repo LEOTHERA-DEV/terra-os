@@ -14,14 +14,16 @@ SECTIONS {
 
     .text : {
         *(.text)
-    } :text = 0xF0000000
+    } :text
 
+    /* . = ALIGN(0x1000); */
     .data : {
         *(.data)
-    }
+    } :data
 
+    /* . = ALIGN(0x1000); */
     .bss : {
         *(COMMON)
         *(.bss)
-    }
+    } :data
 }

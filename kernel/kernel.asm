@@ -1,63 +1,68 @@
 [bits 32]
+
+section .data
+frame_offset dd 0
+
 section .text
 global kernel_main
 
 kernel_main:
     cli
-    mov esp, 0x90000
+    mov ax, 0x10            ; Segment registers for data segment
+    mov ds, ax
+    mov es, ax
+    mov fs, ax
+    mov gs, ax
+
+    mov esp, 0x90000        ; stack: downwards from 0x90000
     mov ebp, esp
 
-    call clear_screen
-
-    mov esi, message
-    call print_terraOS
+main_loop:
+    call color_test         ; draw to video memory
+    call delay              ; add delay to make process more visible
+    jmp main_loop           ; loop process
 
 hang:
     hlt
     jmp hang
 
-clear_screen:
-    cli
-    pusha
-    mov edi, 0xB8000
-    mov ecx, 80 * 25
-    mov eax, 0x0F20
-    rep stosw
-    popa
-    sti
+color_test:
+    mov edi, 0xA0000        ; Start VGA graphics
+    mov ecx, 320*200
+
+    xor eax, eax            ; Clear Registers
+    xor ebx, ebx
+    xor edx, edx
+
+    mov esi, [frame_offset] ; Loading frame offset
+
+.fill_loop:
+    mov al, bl              ; Colour = x position
+    add al, dl              ; add y
+    add ax, si              ; add frame offset
+    add al, ah              ; add variation
+
+    mov [edi], al           ; Set colour value to pixel
+    inc edi                 ; move to next pixel
+
+    inc bx                  ; move x
+    cmp bx, 320             ; end of row
+    jne .next_pixel
+    xor bx, bx              ; reset x
+    inc dl                  ; move to next y value
+
+.next_pixel:
+    loop .fill_loop
+
+    inc dword [frame_offset]; increment frame offset
+
     ret
 
-print_terraOS:
-
-    cli
-    ; mov edi, 0xB8000 + (12 * 160) + (36 * 2)
-    mov edi, 0xB8000
-.yee:
-    mov byte [edi], 'E'
-    add edi, 2
-    mov byte [edi], 'A'
-    add edi, 2
-    jmp .yee
-
-.k_loop:
-    lodsb
-    test al, al ; issue
-    jz .k_done ; issue
-
-    mov byte [edi], al
-    mov byte [edi + 1], 0x0F
-    add edi, 2
-
-    jmp .k_loop
-
-.k_done:
-    mov edi, 0xB8000
-    mov byte [edi], 'G'
-    ; jmp .k_loop
+delay:
+    pusha                   ; save registers
+    mov ecx, 0xFFFFFF       ; Big counter
+.delay_loop:
+    dec ecx
+    jnz .delay_loop         ; repeat until ecx = 0
+    popa                    ; restore saved registers
     ret
-
-message db "TerraOS", 0
-
-section .bss
-resb 4096
-stack_top:

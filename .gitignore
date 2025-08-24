@@ -1,4 +1,5 @@
 *.bin
+*.elf
 
 # Ignore object files
 *.o
@@ -6,3 +7,4 @@
 
 # Ignore VS Code directory
 .vscode/
+.directory
