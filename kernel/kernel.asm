@@ -8,19 +8,19 @@ global kernel_main
 
 kernel_main:
     cli
-    mov ax, 0x10            ; Segment registers
+    mov ax, 0x10            ; Segment registers for data segment
     mov ds, ax
     mov es, ax
     mov fs, ax
     mov gs, ax
 
-    mov esp, 0x90000        ; stack
+    mov esp, 0x90000        ; stack: downwards from 0x90000
     mov ebp, esp
 
 main_loop:
-    call color_test
-    call delay
-    jmp main_loop
+    call color_test         ; draw to video memory
+    call delay              ; add delay to make process more visible
+    jmp main_loop           ; loop process
 
 hang:
     hlt
