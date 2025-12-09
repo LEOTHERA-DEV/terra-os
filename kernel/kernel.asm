@@ -1,12 +1,18 @@
 [bits 32]
-%include "kernel/font.asm"
+%include "graphics/font.asm"
+%include "graphics/draw_font.asm"
 
 section .data
 frame_offset dd 0
 frame_count dd 0
+message db "TEST", 0
 
 section .text
 global kernel_main
+
+extern draw_char_at
+extern draw_string_at
+extern font_table
 
 kernel_main:
     cli
@@ -21,44 +27,42 @@ kernel_main:
 
 main_loop:
     call color_test         ; draw to video memory
-    call delay              ; add delay to make process more visible
-    jmp main_loop           ; loop process
+    ;call delay              ; add delay to make process more visible
+    ;jmp main_loop           ; loop process
+
+    mov ebx, 10
+    mov ecx, 10
+    mov dl, 5
+    mov edi, message
+   ;call draw_string_at
+
+    call delay
+    jmp main_loop
 
 hang:
     hlt
     jmp hang
 
 color_test:
-    mov edi, 0xA0000        ; Start VGA graphics
-    mov ecx, 320*200
+	mov edi, 0x000A0000
+	xor ebx, ebx
+	mov ecx, 200
 
-    xor eax, eax            ; Clear Registers
-    xor ebx, ebx
-    xor edx, edx
+.fill_rows:
+	mov al, bl
+	mov edx, 320
 
-    mov esi, [frame_offset] ; Loading frame offset
+.fill_cols:
+	mov [edi], al
+	inc edi
+	dec edx
+	jnz .fill_cols
 
-.fill_loop:
-    mov al, bl              ; Colour = x position
-    add al, dl              ; add y
-    add ax, si              ; add frame offset
-    add al, ah              ; add variation
+	inc ebx
+	dec ecx
+	jnz .fill_rows
 
-    mov [edi], al           ; Set colour value to pixel
-    inc edi                 ; move to next pixel
-
-    inc bx                  ; move x
-    cmp bx, 320             ; end of row
-    jne .next_pixel
-    xor bx, bx              ; reset x
-    inc dl                  ; move to next y value
-
-.next_pixel:
-    loop .fill_loop
-
-    inc dword [frame_offset]; increment frame offset
-    inc dword [frame_count] ; increment frame counter
-    ret
+	ret
 
 delay:
     pusha                   ; save registers
@@ -68,3 +72,30 @@ delay:
     jnz .delay_loop         ; repeat until ecx = 0
     popa                    ; restore saved registers
     ret
+
+place_pixel:
+	push ebx
+	push ecx
+	push edx
+
+	mov ebx, eax
+	mov ecx, edi
+
+	cmp ebx, 320
+	jae .done
+	cmp ecx, 200
+	jae .done
+
+	mov edx, ecx
+	imul edx, 320
+	add edx, ebx
+	mov edi, 0xA0000
+	add edi, edx
+
+	mov [edi], ah
+
+.done:
+	pop edx
+	pop ecx
+	pop ebx
+	ret

@@ -1,6 +1,8 @@
 section .rodata
 
-font:
+global font_table
+
+font_table:
 	; will only include Space and A-Z for now
 	; 0x20, 0x41-0x5A
 	times 27 * 8 db 0
@@ -196,17 +198,82 @@ font:
 	db 00000000b
 
 	; 0x53 (S)
+	db 01111110b
+	db 10000000b
+	db 10000000b
+	db 01111110b
+	db 00000001b
+	db 00000001b
+	db 01111110b
+	db 00000000b
 
 	; 0x54 (T)
+	db 11111110b
+	db 00010000b
+	db 00010000b
+	db 00010000b
+	db 00010000b
+	db 00010000b
+	db 00010000b
+	db 00000000b
 
 	; 0x55 (U)
+	db 10000001b
+	db 10000001b
+	db 10000001b
+	db 10000001b
+	db 10000001b
+	db 10000001b
+	db 11111111b
+	db 00000000b
 
 	; 0x56 (V)
+	db 10000001b
+	db 10000001b
+	db 01000010b
+	db 01000010b
+	db 00100100b
+	db 00100100b
+	db 00011000b
+	db 00000000b
 
 	; 0x57 (W)
+	db 10000001b
+	db 10000001b
+	db 10000001b
+	db 10000001b
+	db 10011001b
+	db 10100101b
+	db 11000011b
+	db 00000000b
 
 	; 0x58 (X)
+	db 10000001b
+	db 01000010b
+	db 00100100b
+	db 00011000b
+	db 00100100b
+	db 01000010b
+	db 10000001b
+	db 00000000b
 
 	; 0x59 (Y)
+	db 10000010b
+	db 10000010b
+	db 01000100b
+	db 00101000b
+	db 00010000b
+	db 00010000b
+	db 00010000b
+	db 00000000b
 
 	; 0x5A (Z)
+	db 11111111b
+	db 00000010b
+	db 00000100b
+	db 00001000b
+	db 00010000b
+	db 00100000b
+	db 11111111b
+	db 00000000b
+
