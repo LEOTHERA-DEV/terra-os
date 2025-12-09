@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo 'Building TerraOS...'
+echo 'Running TerraOS build script'
 
 # Assemble the bootloader
 echo 'Building Bootloader...'
@@ -23,7 +23,7 @@ echo 'Combining builds...'
 cat boot.bin kernel.bin > os_image.bin || exit 1
 
 echo 'Build successfull!'
-echo "Checking required number of sections:"
+echo "[DEBUG] required number of sections:"
 echo $(( $(stat -c%s kernel.bin) / 512 + 1 ))
 
 # Run the OS in QEMU

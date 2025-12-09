@@ -2,6 +2,7 @@
 
 section .data
 frame_offset dd 0
+frame_count dd 0
 
 section .text
 global kernel_main
@@ -55,7 +56,7 @@ color_test:
     loop .fill_loop
 
     inc dword [frame_offset]; increment frame offset
-
+    inc dword [frame_count] ; increment frame counter
     ret
 
 delay:
