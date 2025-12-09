@@ -1,4 +1,5 @@
 [bits 32]
+%include "kernel/font.asm"
 
 section .data
 frame_offset dd 0
