@@ -34,7 +34,7 @@ main_loop:
     mov ecx, 10
     mov dl, 5
     mov edi, message
-   ;call draw_string_at
+    ;call draw_string_at
 
     call delay
     jmp main_loop

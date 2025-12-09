@@ -28,6 +28,6 @@ echo $(( $(stat -c%s kernel.bin) / 512 + 1 ))
 
 # Run the OS in QEMU
 echo 'Running TerraOS'
-# qemu-system-x86_64 -drive format=raw,file=os_image.bin
+qemu-system-x86_64 -drive format=raw,file=os_image.bin
 
-qemu-system-x86_64 -drive format=raw,file=os_image.bin -no-reboot -d int
+# qemu-system-x86_64 -drive format=raw,file=os_image.bin -no-reboot -d int
