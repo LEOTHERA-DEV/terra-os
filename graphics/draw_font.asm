@@ -3,7 +3,6 @@
 global draw_char_at
 global draw_string_at
 
-
 extern font_table
 extern place_pixel
 

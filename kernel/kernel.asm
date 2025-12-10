@@ -5,7 +5,6 @@
 section .data
 frame_offset dd 0
 frame_count dd 0
-message db "TEST", 0
 
 section .text
 global kernel_main
@@ -26,15 +25,13 @@ kernel_main:
     mov ebp, esp
 
 main_loop:
-    call color_test         ; draw to video memory
-    ;call delay              ; add delay to make process more visible
-    ;jmp main_loop           ; loop process
+    call color_test
 
     mov ebx, 10
     mov ecx, 10
     mov dl, 5
-    mov edi, message
-    ;call draw_string_at
+    mov edi, test_msg
+    call draw_string_at
 
     call delay
     jmp main_loop
@@ -67,6 +64,7 @@ color_test:
 delay:
     pusha                   ; save registers
     mov ecx, 0xFFFFFF       ; Big counter
+
 .delay_loop:
     dec ecx
     jnz .delay_loop         ; repeat until ecx = 0
@@ -99,3 +97,6 @@ place_pixel:
 	pop ecx
 	pop ebx
 	ret
+
+
+test_msg db "TEST", 0
