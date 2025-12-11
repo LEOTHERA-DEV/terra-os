@@ -11,6 +11,7 @@ extern place_pixel
 
 get_char_address:
 	movzx eax, al
+	sub eax, 0x20
 	shl eax, 3
 	mov esi, font_table
 	add esi, eax
@@ -76,6 +77,11 @@ draw_string_at:
 
 	push ecx
 	push edx
+
+	call draw_char_at
+
+	pop edx
+	pop ecx
 
 	add ebx, CHAR_WIDTH
 	inc edi

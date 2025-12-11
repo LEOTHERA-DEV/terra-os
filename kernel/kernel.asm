@@ -99,4 +99,4 @@ place_pixel:
 	ret
 
 
-test_msg db "TEST", 0
+test_msg db "TESTING STUFF", 0
