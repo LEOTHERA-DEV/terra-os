@@ -5,7 +5,7 @@ global font_table
 font_table:
 	; will only include Space and A-Z for now
 	; 0x20, 0x41-0x5A
-	; times 32 * 8 db 0
+	times 32 * 8 db 0 ; Skipping the first set of ASCIIs
 
 	; 0x20 (space)
 	db 00000000b
@@ -17,7 +17,7 @@ font_table:
 	db 00000000b
 	db 00000000b
 
-	times 33 * 8 db 0
+	times 33 * 8 db 0 ; Skipping the next set of ASCIIs
 
 	; 0x41 (A)
 	db 00011000b
