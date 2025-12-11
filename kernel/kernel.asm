@@ -29,7 +29,7 @@ main_loop:
 
     mov ebx, 10
     mov ecx, 10
-    mov dl, 5
+    mov dl, 15
     mov edi, test_msg
     call draw_string_at
 

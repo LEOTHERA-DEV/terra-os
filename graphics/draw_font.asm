@@ -10,26 +10,26 @@ extern place_pixel
 %define CHAR_HEIGHT 8
 
 get_char_address:
+	;sub al, 0x20
 	movzx eax, al
-	sub eax, 0x20
 	shl eax, 3
 	mov esi, font_table
 	add esi, eax
 	ret
 
 draw_char_at:
+	push ebx
 	push esi
 	push edi
+	push ebp
 
 	call get_char_address
 
-	mov edi, ecx
+	mov eax, ebx
 	mov ecx, CHAR_HEIGHT
 
 .draw_rows:
 	mov bl, [esi]
-	mov eax, ebx
-
 	mov ebp, 8
 
 .draw_bits:
@@ -62,8 +62,10 @@ draw_char_at:
 	inc esi
 	loop .draw_rows
 
+	pop ebp
 	pop edi
 	pop esi
+	pop ebx
 	ret
 
 draw_string_at:

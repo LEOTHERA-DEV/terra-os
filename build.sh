@@ -1,5 +1,7 @@
 #!/bin/bash
 
+clear
+
 echo 'Running TerraOS build script'
 
 # Assemble the bootloader

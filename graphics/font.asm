@@ -1,13 +1,10 @@
 section .rodata
-
 global font_table
 
 font_table:
-	; will only include Space and A-Z for now
-	; 0x20, 0x41-0x5A
-	times 32 * 8 db 0 ; Skipping the first set of ASCIIs
 
-	; 0x20 (space)
+	times 32 * 8 db 11111111b     ; 32 chars × 8 rows each
+
 	db 00000000b
 	db 00000000b
 	db 00000000b
@@ -17,9 +14,8 @@ font_table:
 	db 00000000b
 	db 00000000b
 
-	times 33 * 8 db 0 ; Skipping the next set of ASCIIs
+	times 33 * 8 db 11111111b
 
-	; 0x41 (A)
 	db 00011000b
 	db 00100100b
 	db 01000010b
@@ -58,16 +54,16 @@ font_table:
 	db 10000001b
 	db 11111110b
 	db 00000000b
-	
-	; 0x45 {E}
+
+	; 0x45 (E)
 	db 11111111b
 	db 10000000b
 	db 10000000b
 	db 11111000b
 	db 10000000b
 	db 10000000b
-	db 10000000b
 	db 11111111b
+	db 00000000b
 
 	; 0x46 (F)
 	db 11111111b
@@ -184,10 +180,10 @@ font_table:
 	db 10000001b
 	db 10000001b
 	db 10000001b
-	db 10000001b
 	db 10001001b
-	db 01111110b
-	db 00000010b
+	db 10000110b
+	db 01111001b
+	db 00000000b
 
 	; 0x52 (R)
 	db 11111110b
@@ -210,7 +206,7 @@ font_table:
 	db 00000000b
 
 	; 0x54 (T)
-	db 11111110b
+	db 11111111b
 	db 00010000b
 	db 00010000b
 	db 00010000b
@@ -226,26 +222,26 @@ font_table:
 	db 10000001b
 	db 10000001b
 	db 10000001b
-	db 11111111b
+	db 01111110b
 	db 00000000b
 
 	; 0x56 (V)
-	db 10000001b
 	db 10000001b
 	db 01000010b
 	db 01000010b
 	db 00100100b
 	db 00100100b
 	db 00011000b
+	db 00011000b
 	db 00000000b
 
 	; 0x57 (W)
 	db 10000001b
 	db 10000001b
-	db 10000001b
-	db 10000001b
 	db 10011001b
 	db 10100101b
+	db 10100101b
+	db 11000011b
 	db 11000011b
 	db 00000000b
 
@@ -260,10 +256,10 @@ font_table:
 	db 00000000b
 
 	; 0x59 (Y)
-	db 10000010b
-	db 10000010b
-	db 01000100b
-	db 00101000b
+	db 10000001b
+	db 01000010b
+	db 00100100b
+	db 00011000b
 	db 00010000b
 	db 00010000b
 	db 00010000b
@@ -278,4 +274,3 @@ font_table:
 	db 00100000b
 	db 11111111b
 	db 00000000b
-
