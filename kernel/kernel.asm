@@ -27,10 +27,10 @@ kernel_main:
 main_loop:
     call color_test
 
-    mov ebx, 10
-    mov ecx, 10
-    mov dl, 15
-    mov edi, test_msg
+    mov ebx, 10 ; x
+    mov edi, 10 ; y
+    mov dl, 5
+    mov esi, test_msg
     call draw_string_at
 
     call delay
@@ -99,4 +99,4 @@ place_pixel:
 	ret
 
 
-test_msg db "TESTING STUFF", 0
+test_msg db "HOI", 0

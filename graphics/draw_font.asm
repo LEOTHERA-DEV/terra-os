@@ -10,7 +10,7 @@ extern place_pixel
 %define CHAR_HEIGHT 8
 
 get_char_address:
-	;sub al, 0x20
+	sub al, 0x20
 	movzx eax, al
 	shl eax, 3
 	mov esi, font_table
@@ -73,7 +73,7 @@ draw_string_at:
 	push ebx
 
 .next_char:
-	mov al, [edi]
+	mov al, [esi]
 	test al, al
 	jz .done
 
@@ -86,7 +86,7 @@ draw_string_at:
 	pop ecx
 
 	add ebx, CHAR_WIDTH
-	inc edi
+	inc esi
 	jmp .next_char
 
 .done:
