@@ -3,7 +3,7 @@ global font_table
 
 font_table:
 
-	times 32 * 8 db 11111111b     ; 32 chars × 8 rows each
+	times 32 * 8 db 11111111b	; This should set the first 32 chars to blocks
 
 	db 00000000b
 	db 00000000b
@@ -14,7 +14,7 @@ font_table:
 	db 00000000b
 	db 00000000b
 
-	times 33 * 8 db 11111111b
+	times 33 * 8 db 11111111b	; This should set the next 32 chars to blocks
 
 	db 00011000b
 	db 00100100b

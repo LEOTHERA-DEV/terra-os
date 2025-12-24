@@ -12,9 +12,17 @@ nasm -f bin boot/boot.asm -o boot.bin || exit 1
 echo 'Building Kernel...'
 nasm -f elf32 kernel/kernel.asm -o kernel.o || exit 1
 
+# Assemble fonts
+echo 'Building Font functions'
+nasm -f elf32 graphics/font.asm -o font.o || exit 1
+nasm -f elf32 graphics/draw_font.asm -o draw_font.o || exit 1
+
+# Building IDT
+nasm -f elf32 kernel/idt.asm -o idt.o || exit 1
+
 # Link the kernel
 echo 'Linking files...'
-ld -T kernel/linker.ld -o kernel.elf kernel.o || exit 1
+ld -T kernel/linker.ld -o kernel.elf kernel.o idt.o font.o draw_font.o || exit 1
 
 # Convert the kernel to a binary
 echo 'Converting to binary...'
