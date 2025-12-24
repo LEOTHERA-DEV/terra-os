@@ -25,8 +25,7 @@ kernel_main:
 	mov ebp, esp
 
 	call idt_init
-
-	cli
+	sti
 
 main_loop:
 	call color_test		; quick colour test before drawing text

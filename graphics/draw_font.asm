@@ -68,7 +68,7 @@ draw_char_at:
 	pop ebx
 	ret
 
-draw_string_at:		;TODO: Handle IDT
+draw_string_at:
 	push eax
 	push ebx
 
