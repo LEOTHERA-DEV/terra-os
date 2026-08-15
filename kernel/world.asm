@@ -13,8 +13,8 @@ extern mouse_event
 %define SCREEN_H        200
 %define VRAM            0xA0000
 
-%define CURSOR_SIZE     8       ; cursor block size in pixels
-%define STAMP_SIZE      8       ; placed block size in pixels
+%define CURSOR_SIZE     4       ; cursor block size in pixels
+%define STAMP_SIZE      4       ; placed block size in pixels
 
 %define COL_BG          0       ; world background: black
 %define COL_CURSOR      11      ; cyan cursor

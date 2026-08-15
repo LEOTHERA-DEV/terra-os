@@ -71,20 +71,20 @@ extern clear_screen
 section .data
 
 ; Placeholder Credentials
-valid_user  db "gabi", 0
-valid_pass  db "admin", 0
+valid_user  db "admin", 0
+valid_pass  db "6481xlen", 0
 
 ; ── UI text ──
-str_title       db "TerraOS", 0
+str_title       db "TERRA OPERATING SYSTEM", 0
 str_subtitle    db "PROTOTYPE v0.1", 0
 str_user_label  db "USERNAME:", 0
 str_pass_label  db "PASSWORD:", 0
 str_enter_msg   db "PRESS ENTER TO CONFIRM", 0
 str_granted     db "USER CONFIRMED", 0
-str_denied      db "YOU ARE NOT ME!", 0
-str_welcome     db "HULLOOO, GABI.", 0
-str_hint_u      db "CREATED BY G. SARU", 0
-str_hint_p      db "PASSWORD IS MINE", 0
+str_denied      db "INCORRECT USER CREDENTIALS", 0
+str_welcome     db "PRESS ENTER TO START", 0
+str_hint_u      db "Developed by GVBI.len", 0
+str_hint_p      db "GitHub: @gvbi-len", 0
 str_cursor      db "_", 0
 str_star        db "*", 0
 
@@ -603,19 +603,19 @@ draw_result:
     call clear_screen
 
     ; Redraw title and subtitle so the screen isn't completely bare
-    mov ebx, TITLE_X
-    mov edi, TITLE_Y
-    mov dl,  COL_MAGENTA
-    mov esi, str_title
-    call draw_string_at
+    ; mov ebx, TITLE_X
+    ; mov edi, TITLE_Y
+    ; mov dl,  COL_MAGENTA
+    ; mov esi, str_title
+    ; call draw_string_at
 
-    mov ebx, SUBTITLE_X
-    mov edi, SUBTITLE_Y
-    mov dl,  COL_DARK_GREEN
-    mov esi, str_subtitle
-    call draw_string_at
+    ; mov ebx, SUBTITLE_X
+    ; mov edi, SUBTITLE_Y
+    ; mov dl,  COL_DARK_GREEN
+    ; mov esi, str_subtitle
+    ; call draw_string_at
 
-    call draw_deco_lines
+    ; call draw_deco_lines
 
     cmp byte [login_result], 1
     je  .show_granted
@@ -628,11 +628,12 @@ draw_result:
     call draw_string_at
 
     ; "PRESS ENTER TO TRY AGAIN" hint
-    mov ebx, 40
-    mov edi, 108
-    mov dl,  COL_RED
-    mov esi, str_enter_msg
-    call draw_string_at
+    ; mov ebx, 40
+    ; mov edi, 108
+    ; mov dl,  COL_RED
+    ; mov esi, str_enter_msg
+    ; call draw_string_at
+    
     jmp .done
 
 .show_granted:
